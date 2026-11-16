@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.Memory
+import androidx.compose.material.icons.filled.Terminal
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -88,6 +89,19 @@ fun BrahmaAppScaffold(viewModel: BrahmaViewModel) {
                 NavigationBarItem(
                     selected = selectedTab == 2,
                     onClick = { selectedTab = 2 },
+                    icon = { Icon(imageVector = Icons.Default.Terminal, contentDescription = "Code Studio") },
+                    label = { Text("Code") },
+                    colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = BrahmaCyan,
+                        selectedTextColor = BrahmaCyan,
+                        unselectedIconColor = BrahmaTextDim,
+                        unselectedTextColor = BrahmaTextDim,
+                        indicatorColor = Color.Transparent
+                    )
+                )
+                NavigationBarItem(
+                    selected = selectedTab == 3,
+                    onClick = { selectedTab = 3 },
                     icon = { Icon(imageVector = Icons.Default.Tune, contentDescription = "Hardware Hub") },
                     label = { Text("System Hub") },
                     colors = NavigationBarItemDefaults.colors(
@@ -105,7 +119,8 @@ fun BrahmaAppScaffold(viewModel: BrahmaViewModel) {
             when (selectedTab) {
                 0 -> MainAssistantScreen(viewModel)
                 1 -> MemoryCortexScreen(viewModel)
-                2 -> HardwareHubScreen(viewModel)
+                2 -> com.brahma.assistant.ui.screens.CodeStudioScreen(viewModel)
+                3 -> HardwareHubScreen(viewModel)
             }
         }
     }

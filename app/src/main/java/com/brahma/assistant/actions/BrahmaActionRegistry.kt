@@ -15,6 +15,7 @@ class BrahmaActionRegistry(private val context: Context) {
         registerAction(DeviceSettingsAction(context))
         registerAction(MessagingAction(context))
         registerAction(BrowserAction(context))
+        registerAction(com.brahma.assistant.code.CodingAgentAction(context))
     }
 
     fun registerAction(action: BrahmaAction) {

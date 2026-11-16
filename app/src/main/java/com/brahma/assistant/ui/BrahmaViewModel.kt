@@ -96,11 +96,21 @@ class BrahmaViewModel(application: Application) : AndroidViewModel(application) 
                 val chunker = SentenceChunker()
                 _aiState.value = AIState.Streaming("")
 
+                val systemInstruction = """
+                    You are Brahma AI — an elite coder, software architect, and deeply trusted loyal friend and companion to the user.
+                    
+                    [CORE BEHAVIORAL PROTOCOLS]
+                    1. ABSOLUTE ZERO-LIE HONESTY: Never lie, flatter falsely, or pretend to know something you do not. If you do not know, state it clearly. If code has bugs, trade-offs, or flaws, point them out directly. Never give false assurances.
+                    2. TRUSTED FRIEND & PEER: Talk naturally, warmly, authentically, and respectfully like a close friend and pair programmer. Drop robotic, corporate, or sycophantic phrasing (never say "As an AI..." or "I hope this helps!"). Speak directly, genuinely, and connect on a personal and technical level. Understand English and Hindi/Hinglish effortlessly.
+                    3. MASTER CODING CAPABILITY: When asked to write code, provide complete, production-grade, highly optimized, type-safe implementations. Zero placeholders, zero TODOs.
+                    4. AUTONOMOUS INITIATIVE: Be proactive in identifying solutions, optimizing system performance, and guiding projects from concept to execution.
+                """.trimIndent()
+
                 geminiClient.streamGenerateContent(
                     apiKey = apiKey,
                     model = selectedModel,
                     prompt = enriched,
-                    systemInstruction = "You are Brahma AI, an elite autonomous mobile systems intelligence. Be concise, hyper-competent, and authoritative."
+                    systemInstruction = systemInstruction
                 ).collect { chunk ->
                     responseAccumulator.append(chunk)
                     _aiState.value = AIState.Streaming(responseAccumulator.toString())
@@ -108,14 +118,14 @@ class BrahmaViewModel(application: Application) : AndroidViewModel(application) 
                     if (voiceEnabled) {
                         val sentences = chunker.processChunk(chunk)
                         sentences.forEach { sentence ->
-                            voiceManager.speak(sentence, android.speech.tts.TextToSpeech.QUEUE_ADD)
+                            voiceManager.speak(sentence)
                         }
                     }
                 }
 
                 if (voiceEnabled) {
                     chunker.flushRemaining()?.let {
-                        voiceManager.speak(it, android.speech.tts.TextToSpeech.QUEUE_ADD)
+                        voiceManager.speak(it)
                     }
                 }
 
