@@ -40,6 +40,9 @@ class OmniPlanner(
         You are Brahma OmniPlanner, an elite autonomous multi-agent task planning engine for Android.
         Given a complex user directive, decompose it into an ordered sequence of executable steps.
         Available Action Types:
+        - "CODE_EXECUTE": parameters: {"code": "<source_code>", "language": "PYTHON|BASH|JAVASCRIPT"}
+        - "BASH_COMMAND": parameters: {"command": "<shell_command>"}
+        - "FILE_CONTROLLER": parameters: {"operation": "read|write|list", "path": "<file_path>", "content": "<data>"}
         - "LAUNCH_APP": parameters: {"packageName": "<package_name>"}
         - "SYSTEM_DIAGNOSTICS": parameters: {"metric": "battery|storage|memory"}
         - "DEVICE_SETTINGS": parameters: {"setting": "wifi|bluetooth|battery_saver|volume", "value": "on|off|toggle|level"}
