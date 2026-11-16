@@ -116,16 +116,17 @@ class BrahmaViewModel(application: Application) : AndroidViewModel(application) 
                     _aiState.value = AIState.Streaming(responseAccumulator.toString())
 
                     if (voiceEnabled) {
-                        val sentences = chunker.processChunk(chunk)
-                        sentences.forEach { sentence ->
+                        val sentences: List<String> = chunker.processChunk(chunk)
+                        for (sentence in sentences) {
                             voiceManager.speak(sentence)
                         }
                     }
                 }
 
                 if (voiceEnabled) {
-                    chunker.flushRemaining()?.let {
-                        voiceManager.speak(it)
+                    val remaining: String? = chunker.flushRemaining()
+                    if (!remaining.isNullOrBlank()) {
+                        voiceManager.speak(remaining)
                     }
                 }
 

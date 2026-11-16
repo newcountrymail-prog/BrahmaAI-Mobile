@@ -70,7 +70,7 @@ class BrahmaMemoryCortex(
     /**
      * Inspects a conversation turn to automatically extract facts (e.g. "my name is...", "remember that...").
      */
-    suspend fun analyzeAndConsolidate(userText: String, assistantText: String) = withContext(Dispatchers.IO) {
+    suspend fun analyzeAndConsolidate(userText: String, assistantText: String): Unit = withContext(Dispatchers.IO) {
         try {
             val lower = userText.lowercase()
             if (lower.contains("remember that") || lower.contains("my name is") || lower.contains("i like") || lower.contains("i prefer")) {
@@ -88,6 +88,7 @@ class BrahmaMemoryCortex(
         } catch (e: Exception) {
             Log.w(TAG, "Memory consolidation failed: ${e.message}")
         }
+        Unit
     }
 
     suspend fun recordManualMemory(key: String, value: String, type: MemoryType = MemoryType.FACT) {
